@@ -1,0 +1,94 @@
+/* Minimal CSS for low memory footprint */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #f0f0f0;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+body:hover {
+  background: #eaeaea;
+}
+
+.container {
+  text-align: center;
+  padding: 20px;
+}
+
+.content {
+  background: white;
+  padding: 60px 40px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+}
+
+.favicon {
+  width: 64px;
+  height: 64px;
+  opacity: 0.5;
+  margin-bottom: 20px;
+  display: none;
+}
+
+.favicon.show {
+  display: inline-block;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 40px;
+  color: #666;
+  word-wrap: break-word;
+}
+
+.unsuspend-btn {
+  width: 25vw;
+  min-width: 200px;
+  max-width: 300px;
+  height: 25vh;
+  min-height: 120px;
+  max-height: 200px;
+  font-size: 28px;
+  font-weight: 600;
+  color: white;
+  background: #4285f4;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+}
+
+.unsuspend-btn:hover {
+  background: #3367d6;
+  box-shadow: 0 6px 16px rgba(66, 133, 244, 0.4);
+}
+
+.unsuspend-btn:active {
+  transform: scale(0.98);
+}
+
+.info {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #999;
+}
+
+/* Error state */
+.error {
+  color: #d93025;
+  margin-top: 20px;
+} 
