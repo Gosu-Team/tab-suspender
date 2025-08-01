@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Tab Suspender Dashboard</title>
+  <link rel="stylesheet" href="options.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <div class="page-wrapper">
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <img src="../icons/icon48.png" alt="Tab Suspender" class="sidebar-logo">
+        <h2>Tab Suspender</h2>
+        <p class="version">v<span id="sidebarVersion">1.1.0</span></p>
+      </div>
+      
+      <div class="sidebar-nav">
+        <a href="#backup" class="nav-item active" data-section="backup">
+          📦
+
+          Backup & Restore
+        </a>
+        
+        <a href="#bulk" class="nav-item" data-section="bulk">
+          🏗️ Bulk Operations
+        </a>
+        
+        <a href="#settings" class="nav-item" data-section="settings">
+          ⚙️ Settings
+        </a>
+      </div>
+    </nav>
+    
+    <main class="main-content">
+      <header class="page-header">
+        <h1 id="pageTitle">Backup & Restore</h1>
+        <p id="pageDescription">Backup your suspended tabs to protect against extension reloads</p>
+        
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-number" id="headerSuspendedCount">Loading...</span>
+            <span class="stat-label">Suspended Tabs</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="totalTabsCount">Loading...</span>
+            <span class="stat-label">Total Tabs</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Backup & Restore Section -->
+      <div id="backup-section" class="content-section active">
+        <div class="section-grid">
+          <!-- Export Backup -->
+          <section class="section">
+            <h2>📦 Export Backup</h2>
+            <p>Create a backup file of all currently suspended tabs. This file will be downloaded to your computer.</p>
+            
+            <div class="stats" id="suspendedStats">
+              <span id="suspendedCount">Loading...</span> suspended tabs ready for backup
+            </div>
+            
+            <button id="exportBtn" class="btn btn-primary">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7,10 12,15 17,10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Export Backup
+            </button>
+            
+            <div id="exportStatus" class="status hidden"></div>
+          </section>
+
+          <section class="section">
+            <h2>📥 Import Backup</h2>
+            <p>Restore suspended tabs from a previously created backup file. This will recreate the suspended pages with their original URLs and titles.</p>
+            
+            <div class="file-input-wrapper">
+              <input type="file" id="importFile" accept=".json" class="file-input">
+              <label for="importFile" class="file-label">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0-2-2V8z"></path>
+                  <polyline points="14,2 14,8 20,8"></polyline>
+                </svg>
+                Choose Backup File
+              </label>
+            </div>
+            
+            <div id="fileInfo" class="file-info hidden"></div>
+            
+            <button id="importBtn" class="btn btn-secondary" disabled>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17,8 12,3 7,8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              Import Backup
+            </button>
+            
+            <div id="importStatus" class="status hidden"></div>
+          </section>
+
+          <!-- Recreate Section -->
+          <section class="section">
+            <h2>🔄 Recreate Suspended Tabs</h2>
+            <p>After importing a backup, use this to recreate the suspended tabs as actual browser tabs. This is useful when the extension was reloaded and suspended tabs were lost.</p>
+            
+            <div class="stats" id="recreateStats">
+              <span id="recreateCount">Loading...</span> suspended tabs ready to recreate
+            </div>
+            
+            <button id="recreateBtn" class="btn btn-secondary">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23,4 23,10 17,10"></polyline>
+                <polyline points="1,20 1,14 7,14"></polyline>
+                <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+              </svg>
+              Recreate Suspended Tabs
+            </button>
+            
+            <div id="recreateStatus" class="status hidden"></div>
+          </section>
+        </div>
+      </div>
+
+      <div id="bulk-section" class="content-section">
+        <section class="section">
+          <h2>🏗️ Bulk Operations</h2>
+          <p>Perform operations on multiple tabs at once. These actions are also available via right-click on the extension icon.</p>
+          
+          <div class="bulk-operations">
+            <div class="bulk-operation">
+              <h3>Suspend All But Active</h3>
+              <p>Suspend all tabs except the currently active one to instantly free up memory.</p>
+              <button id="suspendAllBtn" class="btn btn-primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="6" y="4" width="4" height="16"></rect>
+                  <rect x="14" y="4" width="4" height="16"></rect>
+                </svg>
+                Suspend All But Active
+              </button>
+              <div id="suspendAllStatus" class="status hidden"></div>
+            </div>
+            
+            <div class="bulk-operation">
+              <h3>Unsuspend All Tabs</h3>
+              <p>Restore all currently suspended tabs back to their original pages.</p>
+              <button id="unsuspendAllBtn" class="btn btn-secondary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="5,3 19,12 5,21"></polygon>
+                </svg>
+                Unsuspend All Tabs
+              </button>
+              <div id="unsuspendAllStatus" class="status hidden"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Settings Section -->
+      <div id="settings-section" class="content-section">
+        <section class="section">
+          <h2>⚙️ Settings & Information</h2>
+          <p>Extension settings and helpful information about Tab Suspender.</p>
+          
+          <div class="settings-grid">
+            <div class="setting-group">
+              <h3>💡 How It Works</h3>
+              <div class="instruction-grid">
+                <div class="instruction">
+                  <h4>Right-Click Actions</h4>
+                  <p>Right-click the extension icon for quick access to backup and bulk operations</p>
+                </div>
+                <div class="instruction">
+                  <h4>Automatic Recovery</h4>
+                  <p>After extension reload, import your backup to restore all suspended tabs</p>
+                </div>
+                <div class="instruction">
+                  <h4>Safe Storage</h4>
+                  <p>Backup files contain only URLs, titles, and favicons - no sensitive data</p>
+                </div>
+                <div class="instruction">
+                  <h4>Memory Savings</h4>
+                  <p>Suspended tabs use minimal resources while preserving all your browsing context</p>
+                </div>
+                <div class="instruction">
+                  <h4>Tab Groups Support</h4>
+                  <p>Tab groups are automatically preserved when backing up and restoring suspended tabs</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="setting-group">
+              <h3>📊 Extension Info</h3>
+              <div class="info-items">
+                <div class="info-item">
+                  <span class="info-label">Version:</span>
+                  <span class="info-value" id="extensionVersion">1.1.0</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Privacy:</span>
+                  <span class="info-value">Local storage only</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Data Collection:</span>
+                  <span class="info-value">None</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Open Source:</span>
+                  <span class="info-value">Yes</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

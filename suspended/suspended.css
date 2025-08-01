@@ -91,4 +91,29 @@ body:hover {
 .error {
   color: #d93025;
   margin-top: 20px;
+  text-align: center;
+}
+
+.error p {
+  margin-bottom: 16px;
+}
+
+.retry-btn {
+  background: #4285f4;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.retry-btn:hover {
+  background: #3367d6;
+}
+
+.retry-btn:active {
+  transform: scale(0.98);
 } 

@@ -16,8 +16,23 @@
     const tabInfo = result[storageKey];
     
     if (!tabInfo) {
-      showError('Tab information not found');
-      return;
+      // Try waiting a bit and retrying once (in case of timing issues)
+      console.warn('Tab information not found on first try, retrying after delay...');
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      const retryResult = await chrome.storage.local.get(storageKey);
+      const retryTabInfo = retryResult[storageKey];
+      
+      if (!retryTabInfo) {
+        // Debug: Show what keys exist in storage
+        console.error('Tab information not found for key:', storageKey);
+        console.error('Available storage keys:', Object.keys(await chrome.storage.local.get()));
+        showError(`Tab information not found (ID: ${tabId}). This may be a corrupted suspended tab.`);
+        return;
+      }
+      
+      // If retry succeeded, use the retry data
+      tabInfo = retryTabInfo;
     }
     
     // Update page with saved information
@@ -109,9 +124,14 @@
 
 function showError(message) {
   const container = document.querySelector('.content');
-  const errorEl = document.createElement('p');
+  const errorEl = document.createElement('div');
   errorEl.className = 'error';
-  errorEl.textContent = message;
+  errorEl.innerHTML = `
+    <p>${message}</p>
+    <button onclick="window.location.reload()" class="retry-btn">
+      Retry Loading
+    </button>
+  `;
   container.appendChild(errorEl);
   
   // Hide unsuspend button on error
